@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "game.hpp"
+#include "logic/game.hpp"
 
 int main(int argc, char const *argv[])
 {

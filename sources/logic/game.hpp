@@ -44,7 +44,6 @@ private:
 	int gameID_;
 	int playersAmount_;
 	
-
 };
 
 #endif
