@@ -1,7 +1,8 @@
 #include "player.hpp"
 
-Player::Player()
+Player::Player(Color col)
 {
+	color_ = col;
 	totalResourcesAmount_ = 0;
 	resourcesAmount_ = { 
 		{WOOD, 0},
@@ -10,4 +11,14 @@ Player::Player()
 		{CORN, 0}, 
 		{ORE, 0}
 	};
+}
+
+Player::~Player()
+{
+
+}
+
+Color Player::getColor()
+{
+	return color_;
 }

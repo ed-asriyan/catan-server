@@ -10,15 +10,18 @@ using namespace std;
 class Player
 {
 public:
-	Player();
+	// Player();
+	Player(Color col = NO_COLOR);
 	~Player();
 
 	int resourceAmount(Resource);
 	int totalResourcesAmount();
+	Color getColor();
 
 protected:
 	map <Resource, int> resourcesAmount_;
 	int totalResourcesAmount_;
+	Color color_;
 
 };
 
