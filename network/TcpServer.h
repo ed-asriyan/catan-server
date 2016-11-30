@@ -12,7 +12,7 @@
 #include <boost/signals2.hpp>
 #include <boost/asio.hpp>
 
-#include "Connection.h"
+#include "TcpConnection.h"
 
 namespace Network {
 	using namespace boost::asio;
@@ -30,11 +30,6 @@ namespace Network {
 			bool running = false;
 
 		public:
-			/**
-			 * @brief The event that occurs when new connection is established.
-			 */
-			boost::signals2::signal<void(socket_ptr)> OnConnect;
-
 			/**
 			 * @brief TcpServer constructor.
 			 * @param port Port for listening.
@@ -70,6 +65,9 @@ namespace Network {
 
 		private:
 			void handleConnection(socket_ptr socket);
+
+		protected:
+			virtual void onConnect(connection_ptr connection) = 0;
 
 	};
 }

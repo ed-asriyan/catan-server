@@ -45,7 +45,7 @@ bool Network::TcpServer::is_running() const {
 
 void Network::TcpServer::handleConnection(socket_ptr socket) {
 	try {
-		OnConnect(socket);
+		onConnect(connection_ptr(new TcpConnection(socket)));
 	} catch (...) {
 
 	}
