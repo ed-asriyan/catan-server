@@ -21,15 +21,13 @@ static int tcolor [N_COLORS] = {
  32, 33, 34, 35, 36, 37 
 };
 
-// fprintf (out,"\033[%dm",tcolor[color]);
-
 #include <vector>
 #include <array>
 #include <map>
 #include <iostream>
 
 #include "sources.hpp"
-#include "cell.hpp"
+// #include "cell.hpp"
 #include "player.hpp"
 
 using namespace std;
@@ -65,7 +63,8 @@ public:
 	bool canBuild(BuildingType, Color, Coordinates);
 	void show();
 
-	Cell* operator[](Coordinates);
+	// Cell* operator[](Coordinates);
+	Cell& operator[](Coordinates);
 
 private:
 
@@ -110,7 +109,7 @@ private:
 		} }	
 	};
 
-	array<array<Cell*, FIELD_SIZE>, FIELD_SIZE> playingFied_;
+	array<array<Cell, FIELD_SIZE>, FIELD_SIZE> playingFied_;
 };
 
 #endif

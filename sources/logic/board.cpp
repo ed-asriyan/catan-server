@@ -7,51 +7,59 @@ Board::Board()
 
 Board::~Board()
 {
-	for (int i = 0; i < FIELD_SIZE; ++i) {
-		for (int j = 0; j < FIELD_SIZE; ++j) {
-			delete playingFied_[i][j];
-		}
-	}
+	// for (int i = 0; i < FIELD_SIZE; ++i) {
+	// 	for (int j = 0; j < FIELD_SIZE; ++j) {
+	// 		delete playingFied_[i][j];
+	// 	}
+	// }
 }
 
 void Board::initialization()
 {
 	for (int i = 0; i < FIELD_SIZE; ++i) {
 		for (int j = 0; j < FIELD_SIZE; ++j) {
-			playingFied_[i][j] = NULL;
+			playingFied_[i][j] = {
+				BLANK_CELL,
+				{ NO_BUILDING, NO_COLOR },
+				NOTHING,
+				{ NO_HARBOR, NOTHING }
+			};
 		}
 	}
 
-	int x_coord = 0;
-	int y_coord = 0;
+	// int x_coord = 0;
+	// int y_coord = 0;
+	Coordinates coord = {0, 0};
 	for (unsigned int i = 0; i < gexagonCoordinates_.size(); ++i) {
-		x_coord = gexagonCoordinates_[i].x;
-		y_coord = gexagonCoordinates_[i].y;
+		// x_coord = gexagonCoordinates_[i].x;
+		// y_coord = gexagonCoordinates_[i].y;
+		coord = gexagonCoordinates_[i];
 
-		playingFied_[x_coord][y_coord] = new Gexagon;
+		// playingFied_[x_coord][y_coord] = new Gexagon;
+		playingFied_[coord.x][coord.y].type = GEXAGON;
 
-		playingFied_[x_coord + 2][y_coord] = new Intersection;
-		playingFied_[x_coord - 2][y_coord] = new Intersection;
-		playingFied_[x_coord][y_coord + 2] = new Intersection;
-		playingFied_[x_coord][y_coord - 2] = new Intersection;
-		playingFied_[x_coord + 2][y_coord - 2] = new Intersection;
-		playingFied_[x_coord - 2][y_coord + 2] = new Intersection;
+		playingFied_[coord.x + 2][coord.y].type = INTERSECTION;
+		playingFied_[coord.x - 2][coord.y].type = INTERSECTION;
+		playingFied_[coord.x][coord.y + 2].type = INTERSECTION;
+		playingFied_[coord.x][coord.y - 2].type = INTERSECTION;
+		playingFied_[coord.x + 2][coord.y - 2].type = INTERSECTION;
+		playingFied_[coord.x - 2][coord.y + 2].type = INTERSECTION;
 
-		playingFied_[x_coord - 1][y_coord - 1] = new Edge;
-		playingFied_[x_coord + 1][y_coord + 1] = new Edge;
-		playingFied_[x_coord + 1][y_coord - 2] = new Edge;
-		playingFied_[x_coord + 2][y_coord - 1] = new Edge;
-		playingFied_[x_coord - 1][y_coord + 2] = new Edge;
-		playingFied_[x_coord - 2][y_coord + 1] = new Edge;
+		playingFied_[coord.x - 1][coord.y - 1].type = EDGE;
+		playingFied_[coord.x + 1][coord.y + 1].type = EDGE;
+		playingFied_[coord.x + 1][coord.y - 2].type = EDGE;
+		playingFied_[coord.x + 2][coord.y - 1].type = EDGE;
+		playingFied_[coord.x - 1][coord.y + 2].type = EDGE;
+		playingFied_[coord.x - 2][coord.y + 1].type = EDGE;
 	}
 
-	for (int i = 0; i < FIELD_SIZE; ++i) {
-		for (int j = 0; j < FIELD_SIZE; ++j) {
-			if (!playingFied_[i][j]) {
-				playingFied_[i][j] = new BlankCell;
-			}			
-		}
-	}
+	// for (int i = 0; i < FIELD_SIZE; ++i) {
+	// 	for (int j = 0; j < FIELD_SIZE; ++j) {
+	// 		if (!playingFied_[i][j]) {
+	// 			playingFied_[i][j] = new BlankCell;
+	// 		}			
+	// 	}
+	// }
 }
 
 void Board::deployment(DeploymentType type)
@@ -71,21 +79,15 @@ void Board::deployment(DeploymentType type)
 
 			// Кинуть exception, если тип ячейки не тот
 			
-			Gexagon* gex = dynamic_cast<Gexagon*>(playingFied_[coord.x][coord.y]);
-			gex->resource = it_map->first;
+			(*this)[coord].resource = it_map->first;
+			// gex->resource = it_map->first;
 		}
-	}
-
-	for (int i = 0; i < GEX_AMOUNT; ++i) {
-		Coordinates coord = gexagonCoordinates_[i];
-		Gexagon* gex = dynamic_cast<Gexagon*>(playingFied_[coord.x][coord.y]);
-		// cout << i << ' ' << gex->resource << endl;
 	}
 }
 
 CellType Board::getCellType(Coordinates coord)
 {
-	return (*this)[coord]->type();
+	return (*this)[coord].type;
 }
 
 void Board::playerInitDeployment(const Color col)
@@ -97,27 +99,27 @@ void Board::playerInitDeployment(const Color col)
 		CellType type = getCellType(crd);
 		if (type == INTERSECTION)
 		{
-			(*this)[crd]->building = { SETTLEMENT, col };
+			(*this)[crd].building = { SETTLEMENT, col };
 		}
 		else if (type == EDGE)
 		{
-			(*this)[crd]->building = { ROAD, col };
+			(*this)[crd].building = { ROAD, col };
 		}
 	}
 }
 
 Resource Board::getGexResource(Coordinates coord)
 {
-	Cell* cell = (*this)[coord];
+	Cell cell = (*this)[coord];
 
-	if (cell->type() != GEXAGON)
+	if (cell.type != GEXAGON)
 	{
 		return NOTHING;
 	}
 	else
 	{
-		auto gex = dynamic_cast<Gexagon*>(cell);
-		return gex->resource;
+		// auto gex = dynamic_cast<Gexagon*>(cell);
+		return cell.resource;
 	}
 }
 
@@ -138,8 +140,8 @@ vector<Coordinates> Board::getEdgesByEdge(Coordinates coord)
 			int y = coord.y + j;
 			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				Cell* cell = playingFied_[x][y];
-				if (cell->type() == EDGE)
+				Cell cell = playingFied_[x][y];
+				if (cell.type == EDGE)
 				{
 					answer.push_back({x, y});
 				}
@@ -162,9 +164,9 @@ vector<Coordinates> Board::getIntersectionsByIntersection(Coordinates coord)
 			int y = coord.y + j;
 			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				Cell* cell = playingFied_[x][y];
-				Cell* cell_between = playingFied_[(x + coord.x) / 2][(y + coord.y) / 2];
-				if (cell->type() == INTERSECTION && cell_between->type() == EDGE)
+				Cell cell = playingFied_[x][y];
+				Cell cell_between = playingFied_[(x + coord.x) / 2][(y + coord.y) / 2];
+				if (cell.type == INTERSECTION && cell_between.type == EDGE)
 				{
 					answer.push_back({x, y});
 				}
@@ -187,8 +189,8 @@ vector<Coordinates> Board::getIntersectionsByGex(Coordinates coord)
 			int y = coord.y + j;
 			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				Cell* cell = playingFied_[x][y];
-				if (cell->type() == INTERSECTION)
+				Cell cell = playingFied_[x][y];
+				if (cell.type == INTERSECTION)
 				{
 					answer.push_back({x, y});
 				}
@@ -221,8 +223,8 @@ vector<Coordinates> Board::getEdgesByIntersection(Coordinates coord)
 			int y = coord.y + j;
 			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				Cell* cell = playingFied_[x][y];
-				if (cell->type() == EDGE)
+				Cell cell = playingFied_[x][y];
+				if (cell.type == EDGE)
 				{
 					answer.push_back({x, y});
 				}
@@ -245,8 +247,8 @@ vector<Coordinates> Board::getIntersectionsByEdge(Coordinates coord)
 			int y = coord.y + j;
 			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				Cell* cell = playingFied_[x][y];
-				if (cell->type() == INTERSECTION)
+				Cell cell = playingFied_[x][y];
+				if (cell.type == INTERSECTION)
 				{
 					answer.push_back({x, y});
 				}
@@ -264,10 +266,10 @@ vector<Coordinates> Board::getGexesByEdge(Coordinates)
 
 bool Board::canBuildRoad(Color color, Coordinates coord)
 {
-	if ((*this)[coord]->building.type != NO_BUILDING)
+	if ((*this)[coord].building.type != NO_BUILDING)
 	{
 		cout << "Can not build road in " << coord << endl;
-		cout << (*this)[coord]->building.type << " is here" << endl;
+		cout << (*this)[coord].building.type << " is here" << endl;
 		return false;
 	}
 
@@ -275,7 +277,7 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 
 	for (auto edge : nearby_edges)
 	{
-		if ((*this)[edge]->building.color == color)
+		if ((*this)[edge].building.color == color)
 		{
 			// cout << "Can build road in " << coord << endl;
 			return true;
@@ -289,10 +291,10 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 
 bool Board::canBuildSettlement(Color color, Coordinates coord)
 {
-	if ((*this)[coord]->building.type != NO_BUILDING)
+	if ((*this)[coord].building.type != NO_BUILDING)
 	{
 		cout << "Can not build settlement in " << coord << endl;
-		cout << (*this)[coord]->building.type << " is here" << endl;
+		cout << (*this)[coord].building.type << " is here" << endl;
 		return false;
 	}
 
@@ -300,10 +302,10 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 	for (auto isect : nearby_intersections)
 	{
-		if ((*this)[isect]->building.type != NO_BUILDING)
+		if ((*this)[isect].building.type != NO_BUILDING)
 		{
 			cout << "Can not build settlement in " << coord << endl;
-			cout << (*this)[isect]->building.type << " in " << isect << endl;
+			cout << (*this)[isect].building.type << " in " << isect << endl;
 			return false;
 		}
 	}
@@ -312,7 +314,7 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 	for (auto edge : nearby_edges)
 	{
-		if ((*this)[edge]->building.color == color)
+		if ((*this)[edge].building.color == color)
 		{
 			// cout << "Can build settlement in " << coord << endl;
 			return true;
@@ -326,10 +328,10 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 bool Board::canBuildCity(Color color, Coordinates coord)
 {
-	if ((*this)[coord]->building.type != SETTLEMENT)
+	if ((*this)[coord].building.type != SETTLEMENT)
 	{
 		cout << "Can not build city in " << coord << endl;
-		cout << (*this)[coord]->building.type << " is here" << endl;
+		cout << (*this)[coord].building.type << " is here" << endl;
 		return false;
 	}
 
@@ -346,7 +348,7 @@ bool Board::canBuild(BuildingType type, Color color, Coordinates coord)
 		return false;
 	}
 
-	if ((*this)[coord]->type() != BuildToCellType(type))
+	if ((*this)[coord].type != BuildToCellType(type))
 	{
 		cout << "Can not build in " << coord << endl;
 		cout << "Wrong cell type" << endl;
@@ -373,7 +375,8 @@ bool Board::canBuild(BuildingType type, Color color, Coordinates coord)
 }
 
 
-Cell* Board::operator[](Coordinates crd)
+// Cell* Board::operator[](Coordinates crd)
+Cell& Board::operator[](Coordinates crd)
 {
 	return playingFied_[crd.x][crd.y];
 }
@@ -396,14 +399,14 @@ void Board::show()
 			} else {
 				int text_color = C_Reset;
 				int city = 0;
-				BuildingType type = playingFied_[i][j]->building.type;
+				BuildingType type = playingFied_[i][j].building.type;
 				if (type != NO_BUILDING)
 				{
 					if (type == CITY)
 					{
 						city = 1;
 					}
-					Color color = playingFied_[i][j]->building.color;
+					Color color = playingFied_[i][j].building.color;
 					switch (color)
 					{
 						case ORANGE:
@@ -423,10 +426,10 @@ void Board::show()
 
 				char gex = 'G';
 
-				if (getCellType({i, j}) == GEXAGON)
+				if (playingFied_[i][j].type == GEXAGON)
 				{
-					Gexagon* gexagon = dynamic_cast<Gexagon*>(playingFied_[i][j]);
-					Resource res = gexagon->resource;
+					Cell gexagon = playingFied_[i][j];
+					Resource res = gexagon.resource;
 					switch (res)
 					{
 						case WOOD:
@@ -447,7 +450,8 @@ void Board::show()
 					}
 				}
 
-				switch (getCellType({i, j})) {
+				switch (playingFied_[i][j].type) 
+				{
 					case BLANK_CELL:
 						cout << " . ";
 						break;

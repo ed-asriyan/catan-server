@@ -37,6 +37,14 @@ struct Building
 	Color color;
 };
 
+struct Cell
+{
+	CellType type;
+	Building building;
+	Resource resource;
+	Harbor harbor;
+};
+
 CellType BuildToCellType(BuildingType);
 ostream& operator <<(ostream& os, const Coordinates&);
 ostream& operator <<(ostream& os, const BuildingType&);

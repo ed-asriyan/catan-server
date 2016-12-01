@@ -9,7 +9,7 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "cell.hpp"
+// #include "cell.hpp"
 #include "board.hpp"
 #include "player.hpp"
 

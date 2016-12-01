@@ -68,16 +68,16 @@ void Game::nextStep()
 			vector<Coordinates> intersections = board.getIntersectionsByGex(gex);
 			for (auto isect : intersections)
 			{
-				auto cell = dynamic_cast<Intersection*>(board[isect]);
-				if (cell->building.type != NO_BUILDING)
+				Cell cell = board[isect];
+				if (cell.building.type != NO_BUILDING)
 				{
-					Color color = cell->building.color;
+					Color color = cell.building.color;
 					int amount = 0;
-					if (cell->building.type == SETTLEMENT)
+					if (cell.building.type == SETTLEMENT)
 					{
 						amount = 1;
 					}
-					else if (cell->building.type == CITY)
+					else if (cell.building.type == CITY)
 					{
 						amount = 2;
 					}
@@ -115,8 +115,8 @@ void Game::build(BuildingType type, Color color, Coordinates coord)
 	{
 		if (buyBuilding(color, type))
 		{
-			board[coord]->building.type = type;
-			board[coord]->building.color = color;
+			board[coord].building.type = type;
+			board[coord].building.color = color;
 			cout << color << " " << type << " is build in " << coord << endl;
 		}
 		else
