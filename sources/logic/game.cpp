@@ -31,24 +31,25 @@ void Game::show()
 
 	for (auto p : players_)
 	{
-		switch (p.first)
-		{
-			case 0:
-				cout << "NO_COLOR" << endl;
-				break;
-			case 1:
-				cout << "ORANGE" << endl;
-				break;
-			case 2:
-				cout << "BLUE" << endl;
-				break;
-			case 3:
-				cout << "WHITE" << endl;
-				break;
-			case 4:
-				cout << "RED" << endl;
-				break;
-		}
+		// switch (p.first)
+		// {
+		// 	case 0:
+		// 		cout << "NO_COLOR" << endl;
+		// 		break;
+		// 	case 1:
+		// 		cout << "ORANGE" << endl;
+		// 		break;
+		// 	case 2:
+		// 		cout << "BLUE" << endl;
+		// 		break;
+		// 	case 3:
+		// 		cout << "WHITE" << endl;
+		// 		break;
+		// 	case 4:
+		// 		cout << "RED" << endl;
+		// 		break;
+		// }
+		cout << p.first << endl;
 		p.second.show();
 		cout << endl;
 	}
@@ -135,18 +136,8 @@ void Game::nextStep()
 		}
 	}
 
-	cout << endl << dice << endl;
+	cout << "dice: " << dice << endl;
 }
-
-// void Game::build(BuildingType type, Color color, Coordinates coord)
-// {
-// 	if (board[coord]->building.type != NO_BUILDING || color == NO_COLOR)
-// 	{
-// 		return;
-// 	}
-
-
-// }
 
 bool Game::buyBuilding(Color color, BuildingType type)
 {
@@ -166,42 +157,6 @@ bool Game::buyBuilding(Color color, BuildingType type)
 	return true;
 }
 
-// void Game::buildRoad(Color color, Coordinates coord)
-// {
-// 	if (board.canBuildRoad(color, coord))
-// 	{
-// 		if (buyBuilding(color, ROAD))
-// 		{
-// 			board[coord]->building.type = ROAD;
-// 			board[coord]->building.color = color;
-// 		}
-// 	}
-// }
-
-// void Game::buildSettlement(Color color, Coordinates coord)
-// {
-// 	if (board.canBuildSettlement(color, coord))
-// 	{
-// 		if (buyBuilding(color, SETTLEMENT))
-// 		{
-// 			board[coord]->building.type = SETTLEMENT;
-// 			board[coord]->building.color = color;
-// 		}
-// 	}
-// }
-
-// void Game::buildCity(Color color, Coordinates coord)
-// {
-// 	if (board.canBuildCity(color, coord))
-// 	{
-// 		if (buyBuilding(color, CITY))
-// 		{
-// 			board[coord]->building.type = CITY;
-// 			board[coord]->building.color = color;
-// 		}
-// 	}
-// }
-
 void Game::build(BuildingType type, Color color, Coordinates coord)
 {
 	if (board.canBuild(type, color, coord))
@@ -210,6 +165,11 @@ void Game::build(BuildingType type, Color color, Coordinates coord)
 		{
 			board[coord]->building.type = type;
 			board[coord]->building.color = color;
+			cout << color << " " << type << " is build in " << coord << endl;
+		}
+		else
+		{
+			cout << "No resources for build " << color << " " << type << " in " << coord << endl;
 		}
 	}
 }

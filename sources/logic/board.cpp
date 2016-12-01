@@ -142,10 +142,13 @@ vector<Coordinates> Board::getEdgesByEdge(Coordinates coord)
 		{
 			int x = coord.x + i;
 			int y = coord.y + j;
-			Cell* cell = playingFied_[x][y];
-			if (cell->type() == EDGE)
+			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				answer.push_back({x, y});
+				Cell* cell = playingFied_[x][y];
+				if (cell->type() == EDGE)
+				{
+					answer.push_back({x, y});
+				}
 			}
 		}
 	}
@@ -163,11 +166,14 @@ vector<Coordinates> Board::getIntersectionsByIntersection(Coordinates coord)
 		{
 			int x = coord.x + i;
 			int y = coord.y + j;
-			Cell* cell = playingFied_[x][y];
-			Cell* cell_between = playingFied_[(x + coord.x) / 2][(y + coord.y) / 2];
-			if (cell->type() == INTERSECTION && cell_between->type() == EDGE)
+			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				answer.push_back({x, y});
+				Cell* cell = playingFied_[x][y];
+				Cell* cell_between = playingFied_[(x + coord.x) / 2][(y + coord.y) / 2];
+				if (cell->type() == INTERSECTION && cell_between->type() == EDGE)
+				{
+					answer.push_back({x, y});
+				}
 			}
 		}
 	}
@@ -185,10 +191,13 @@ vector<Coordinates> Board::getIntersectionsByGex(Coordinates coord)
 		{
 			int x = coord.x + i;
 			int y = coord.y + j;
-			Cell* cell = playingFied_[x][y];
-			if (cell->type() == INTERSECTION)
+			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				answer.push_back({x, y});
+				Cell* cell = playingFied_[x][y];
+				if (cell->type() == INTERSECTION)
+				{
+					answer.push_back({x, y});
+				}
 			}
 		}
 	}
@@ -216,10 +225,13 @@ vector<Coordinates> Board::getEdgesByIntersection(Coordinates coord)
 		{
 			int x = coord.x + i;
 			int y = coord.y + j;
-			Cell* cell = playingFied_[x][y];
-			if (cell->type() == EDGE)
+			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				answer.push_back({x, y});
+				Cell* cell = playingFied_[x][y];
+				if (cell->type() == EDGE)
+				{
+					answer.push_back({x, y});
+				}
 			}
 		}
 	}
@@ -237,10 +249,13 @@ vector<Coordinates> Board::getIntersectionsByEdge(Coordinates coord)
 		{
 			int x = coord.x + i;
 			int y = coord.y + j;
-			Cell* cell = playingFied_[x][y];
-			if (cell->type() == INTERSECTION)
+			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
 			{
-				answer.push_back({x, y});
+				Cell* cell = playingFied_[x][y];
+				if (cell->type() == INTERSECTION)
+				{
+					answer.push_back({x, y});
+				}
 			}
 		}
 	}
@@ -268,13 +283,13 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 	{
 		if (playingFied_[edge.x][edge.y]->building.color == color)
 		{
-			cout << "Can build road in " << coord << endl;
+			// cout << "Can build road in " << coord << endl;
 			return true;
 		}
 	}
 
 	cout << "Can not build road in " << coord << endl;
-	cout << "End of func" << endl;
+	cout << "No nearby roads" << endl;
 	return false;
 }
 
@@ -305,13 +320,13 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 	{
 		if (playingFied_[edge.x][edge.y]->building.color == color)
 		{
-			cout << "Can build settlement in " << coord << endl;
+			// cout << "Can build settlement in " << coord << endl;
 			return true;
 		}
 	}
 
 	cout << "Can not build settlement in " << coord << endl;
-	cout << "End of func" << endl;
+	cout << "No nearby roads" << endl;
 	return false;
 }
 
@@ -319,12 +334,12 @@ bool Board::canBuildCity(Color color, Coordinates coord)
 {
 	if (playingFied_[coord.x][coord.y]->building.type != SETTLEMENT)
 	{
-		cout << "Can not build city in {" << coord.x << ", " << coord.y << "}" << endl;
+		cout << "Can not build city in " << coord << endl;
 		cout << playingFied_[coord.x][coord.y]->building.type << " is here" << endl;
 		return false;
 	}
 
-	cout << "Can build city in {" << coord.x << ", " << coord.y << "}" << endl;
+	// cout << "Can build city in {" << coord.x << ", " << coord.y << "}" << endl;
 	return true;
 }
 
@@ -332,14 +347,14 @@ bool Board::canBuild(BuildingType type, Color color, Coordinates coord)
 {
 	if (color == NO_COLOR)
 	{
-		cout << "Can not build in {" << coord.x << ", " << coord.y << "}" << endl;
+		cout << "Can not build in " << coord << endl;
 		cout << "No color" << endl;
 		return false;
 	}
 
 	if (playingFied_[coord.x][coord.y]->type() != BuildToCellType(type))
 	{
-		cout << "Can not build in {" << coord.x << ", " << coord.y << "}" << endl;
+		cout << "Can not build in " << coord << endl;
 		cout << "Wrong cell type" << endl;
 		return false;
 	}
@@ -353,12 +368,12 @@ bool Board::canBuild(BuildingType type, Color color, Coordinates coord)
 		case CITY:
 			return canBuildCity(color, coord);
 		default:
-			cout << "Can not build in {" << coord.x << ", " << coord.y << "}" << endl;
+			cout << "Can not build in " << coord << endl;
 			cout << "Default case" << endl;
 			return false;
 	}
 
-	cout << "Can not build in {" << coord.x << ", " << coord.y << "}" << endl;
+	cout << "Can not build in " << coord << endl;
 	cout << "End of function" << endl;
 	return false;
 }
@@ -379,10 +394,6 @@ void Board::show()
 				cout << " " << j;
 				if (j < 10)
 					cout << " ";
-				// if (j > 9)
-				// 	cout << " " << j;
-				// else 
-				// 	cout << " " << j << " ";
 			} else if (j == -1) {
 				if (i > 9)
 					cout << i;

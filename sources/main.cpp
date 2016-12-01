@@ -12,12 +12,7 @@ int main(int argc, char const *argv[])
 	game.addPlayer();
 	game.addPlayer();
 
-	// for (int i = 0; i < 10; ++i)
-	// {
-	// 	game.nextStep();
-	// }
-
-	game.show();
+	// game.show();
 
 	char color_c;
 	char type_c;
@@ -26,6 +21,8 @@ int main(int argc, char const *argv[])
 	while (true)
 	{
 		game.nextStep();
+
+		game.show();
 
 		cin >> color_c >> type_c >> crd.x >> crd.y;
 
@@ -64,11 +61,9 @@ int main(int argc, char const *argv[])
 				type = NO_BUILDING;
 		}
 
-		cout << color_c << " " << type_c << " {" << crd.x << ", " << crd.y << "}" << endl << endl;
+		cout << color << " " << type << " " << crd << endl << endl;
 
 		game.build(type, color, crd);
-
-		game.show();
 	}
 
 	return 0;

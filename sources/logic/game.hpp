@@ -28,9 +28,6 @@ public:
 	void addPlayer(Color col = NO_COLOR);
 	void nextStep();
 
-	// void buildRoad(Color, Coordinates);
-	// void buildSettlement(Color, Coordinates);
-	// void buildCity(Color, Coordinates);
 	void build(BuildingType, Color, Coordinates);
 
 private:
@@ -40,7 +37,6 @@ private:
 	Board board;
 	int gameID_;
 	int playersAmount_;
-	// vector<Player> players_;
 	vector<Color> not_using_colors_;
 
 	map<Color, Player> players_;
