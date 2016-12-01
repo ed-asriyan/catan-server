@@ -46,6 +46,17 @@ namespace Network {
 			 */
 			std::string receive();
 
+			/**
+			 * @brief Returns remote ip address.
+			 * @return Remote ip address.
+			 */
+			std::string get_remote_ip() const;
+
+			/**
+			 * @brief Returns local ip address.
+			 * @returns Local ip address.
+			 */
+			std::string get_local_ip() const;
 	};
 }
 

@@ -20,3 +20,11 @@ std::string Network::TcpConnection::receive() {
 
 	return std::string(std::istreambuf_iterator<char>(&buffer), std::istreambuf_iterator<char>());
 }
+
+std::string Network::TcpConnection::get_remote_ip() const {
+	return socket->remote_endpoint().address().to_string();
+}
+
+std::string Network::TcpConnection::get_local_ip() const {
+	return socket->local_endpoint().address().to_string();
+}
