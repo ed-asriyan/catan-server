@@ -19,12 +19,9 @@ class Game
 {
 public:
 	Game();
-	Game(int gameID);
 	~Game();
 
-	int getID();
 	void show();
-	int playersAmount();
 	void addPlayer(Color col = NO_COLOR);
 	void nextStep();
 
@@ -35,8 +32,6 @@ private:
 	bool buyBuilding(Color, BuildingType);
 
 	Board board;
-	int gameID_;
-	int playersAmount_;
 	vector<Color> not_using_colors_;
 
 	map<Color, Player> players_;

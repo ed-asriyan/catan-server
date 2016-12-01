@@ -85,7 +85,7 @@ void Board::deployment(DeploymentType type)
 
 CellType Board::getCellType(Coordinates coord)
 {
-	return playingFied_[coord.x][coord.y]->type();
+	return (*this)[coord]->type();
 }
 
 void Board::playerInitDeployment(const Color col)
@@ -97,18 +97,18 @@ void Board::playerInitDeployment(const Color col)
 		CellType type = getCellType(crd);
 		if (type == INTERSECTION)
 		{
-			playingFied_[crd.x][crd.y]->building = { SETTLEMENT, col };
+			(*this)[crd]->building = { SETTLEMENT, col };
 		}
 		else if (type == EDGE)
 		{
-			playingFied_[crd.x][crd.y]->building = { ROAD, col };
+			(*this)[crd]->building = { ROAD, col };
 		}
 	}
 }
 
 Resource Board::getGexResource(Coordinates coord)
 {
-	Cell* cell = playingFied_[coord.x][coord.y];
+	Cell* cell = (*this)[coord];
 
 	if (cell->type() != GEXAGON)
 	{
@@ -125,12 +125,6 @@ vector<Coordinates> Board::getGexesByNumber(int num)
 {
 	return gex_numbers_[num];
 }
-
-// vector<Coordinates> Board::getIntersectionsByNumber(int num)
-// {
-// 	vector<Coordinates> gexes = gex_numbers_[num];
-
-// }
 
 vector<Coordinates> Board::getEdgesByEdge(Coordinates coord)
 {
@@ -270,10 +264,10 @@ vector<Coordinates> Board::getGexesByEdge(Coordinates)
 
 bool Board::canBuildRoad(Color color, Coordinates coord)
 {
-	if (playingFied_[coord.x][coord.y]->building.type != NO_BUILDING)
+	if ((*this)[coord]->building.type != NO_BUILDING)
 	{
 		cout << "Can not build road in " << coord << endl;
-		cout << playingFied_[coord.x][coord.y]->building.type << " is here" << endl;
+		cout << (*this)[coord]->building.type << " is here" << endl;
 		return false;
 	}
 
@@ -281,7 +275,7 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 
 	for (auto edge : nearby_edges)
 	{
-		if (playingFied_[edge.x][edge.y]->building.color == color)
+		if ((*this)[edge]->building.color == color)
 		{
 			// cout << "Can build road in " << coord << endl;
 			return true;
@@ -295,10 +289,10 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 
 bool Board::canBuildSettlement(Color color, Coordinates coord)
 {
-	if (playingFied_[coord.x][coord.y]->building.type != NO_BUILDING)
+	if ((*this)[coord]->building.type != NO_BUILDING)
 	{
 		cout << "Can not build settlement in " << coord << endl;
-		cout << playingFied_[coord.x][coord.y]->building.type << " is here" << endl;
+		cout << (*this)[coord]->building.type << " is here" << endl;
 		return false;
 	}
 
@@ -306,10 +300,10 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 	for (auto isect : nearby_intersections)
 	{
-		if (playingFied_[isect.x][isect.y]->building.type != NO_BUILDING)
+		if ((*this)[isect]->building.type != NO_BUILDING)
 		{
 			cout << "Can not build settlement in " << coord << endl;
-			cout << playingFied_[isect.x][isect.y]->building.type << " in " << isect << endl;
+			cout << (*this)[isect]->building.type << " in " << isect << endl;
 			return false;
 		}
 	}
@@ -318,7 +312,7 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 	for (auto edge : nearby_edges)
 	{
-		if (playingFied_[edge.x][edge.y]->building.color == color)
+		if ((*this)[edge]->building.color == color)
 		{
 			// cout << "Can build settlement in " << coord << endl;
 			return true;
@@ -332,10 +326,10 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 
 bool Board::canBuildCity(Color color, Coordinates coord)
 {
-	if (playingFied_[coord.x][coord.y]->building.type != SETTLEMENT)
+	if ((*this)[coord]->building.type != SETTLEMENT)
 	{
 		cout << "Can not build city in " << coord << endl;
-		cout << playingFied_[coord.x][coord.y]->building.type << " is here" << endl;
+		cout << (*this)[coord]->building.type << " is here" << endl;
 		return false;
 	}
 
@@ -352,7 +346,7 @@ bool Board::canBuild(BuildingType type, Color color, Coordinates coord)
 		return false;
 	}
 
-	if (playingFied_[coord.x][coord.y]->type() != BuildToCellType(type))
+	if ((*this)[coord]->type() != BuildToCellType(type))
 	{
 		cout << "Can not build in " << coord << endl;
 		cout << "Wrong cell type" << endl;

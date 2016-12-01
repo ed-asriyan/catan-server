@@ -111,8 +111,6 @@ private:
 	};
 
 	array<array<Cell*, FIELD_SIZE>, FIELD_SIZE> playingFied_;
-	// InitializeType init_type;
-
 };
 
 #endif

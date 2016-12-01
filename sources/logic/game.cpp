@@ -7,20 +7,9 @@ Game::Game()
 	srand(time(0));
 }
 
-Game::Game(int gameID)
-{
-	gameID_ = gameID;
-	board.deployment();
-}
-
 Game::~Game()
 {
 
-}
-
-int Game::getID()
-{
-	return gameID_;
 }
 
 void Game::show()
@@ -31,70 +20,33 @@ void Game::show()
 
 	for (auto p : players_)
 	{
-		// switch (p.first)
-		// {
-		// 	case 0:
-		// 		cout << "NO_COLOR" << endl;
-		// 		break;
-		// 	case 1:
-		// 		cout << "ORANGE" << endl;
-		// 		break;
-		// 	case 2:
-		// 		cout << "BLUE" << endl;
-		// 		break;
-		// 	case 3:
-		// 		cout << "WHITE" << endl;
-		// 		break;
-		// 	case 4:
-		// 		cout << "RED" << endl;
-		// 		break;
-		// }
 		cout << p.first << endl;
 		p.second.show();
 		cout << endl;
 	}
 }
 
-int Game::playersAmount()
-{
-	return playersAmount_;
-}
-
 void Game::addPlayer(Color col)
 {
+	auto col_it = not_using_colors_.begin();
+
 	if (col != NO_COLOR)
 	{
-		auto col_it = find(not_using_colors_.begin(), not_using_colors_.end(), col);
-		if (col_it < not_using_colors_.end())
-		{
-			++playersAmount_;
-			Player new_player;
-			// players_.push_back(new_player);
-			players_[col] = new_player;
-			not_using_colors_.erase(col_it);
-			board.playerInitDeployment(col);
-		}
-	}
-	else
-	{
-		if (not_using_colors_.size() > 0)
-		{
-			++playersAmount_;
-			col = not_using_colors_[0];
-			Player new_player;
-			// players_.push_back(new_player);
-			players_[col] = new_player;
-			board.playerInitDeployment(col);
-			not_using_colors_.erase(not_using_colors_.begin());
-		}
+		col_it = find(not_using_colors_.begin(), not_using_colors_.end(), col);
 	}
 
+	if (col_it < not_using_colors_.end())
+	{
+		col = *col_it;
+		Player new_player;
+		players_[col] = new_player;
+		board.playerInitDeployment(col);
+		not_using_colors_.erase(col_it);
+	}
 }
 
 int Game::throwDice()
 {
-	// srand(time(0));
-
 	// 1 to 6
 	int dice1 = rand() % 6 + 1;
 	int dice2 = rand() % 6 + 1;
