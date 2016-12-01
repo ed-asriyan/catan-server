@@ -35,8 +35,6 @@ public:
 	~Gexagon();
 
 	Resource resource;
-	int number;
-
 };
 
 class Intersection : public Cell

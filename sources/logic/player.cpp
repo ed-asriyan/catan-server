@@ -1,15 +1,15 @@
 #include "player.hpp"
 
-Player::Player(Color col)
+Player::Player()
 {
-	color_ = col;
+	// color_ = col;
 	totalResourcesAmount_ = 0;
 	resourcesAmount_ = { 
-		{WOOD, 0},
-		{BRICKS, 0},
-		{FLEECE, 0}, 
-		{CORN, 0}, 
-		{ORE, 0}
+		{WOOD, 		100},
+		{BRICKS, 	100},
+		{FLEECE, 	100}, 
+		{CORN, 		100}, 
+		{ORE, 		100}
 	};
 }
 
@@ -18,7 +18,36 @@ Player::~Player()
 
 }
 
-Color Player::getColor()
+void Player::addResource(Resource res, int num)
 {
-	return color_;
+	resourcesAmount_[res] += num;
+}
+
+void Player::takeResource(Resource res, int num)
+{
+	if (haveResourse(res, num))
+	{
+		resourcesAmount_[res] -= num;
+	}
+}
+
+bool Player::haveResourse(Resource res, int num)
+{
+	if (resourcesAmount_[res] < num)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+void Player::show()
+{
+	cout << "WOOD  : " << resourcesAmount_[WOOD] 	<< endl;
+	cout << "BRICKS: " << resourcesAmount_[BRICKS] 	<< endl;
+	cout << "FLEECE: " << resourcesAmount_[FLEECE] 	<< endl;
+	cout << "CORN:   " << resourcesAmount_[CORN] 	<< endl;
+	cout << "ORE:    " << resourcesAmount_[ORE] 	<< endl;
 }

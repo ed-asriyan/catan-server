@@ -1,8 +1,12 @@
 #ifndef _SOURCES_HPP_
 #define _SOURCES_HPP_ 
 
+#include "iostream"
+
 #define FIELD_SIZE 21
 #define GEX_AMOUNT 19
+
+using namespace std;
 
 enum Resource { NOTHING, WOOD, BRICKS, FLEECE, CORN, ORE };
 
@@ -32,5 +36,12 @@ struct Building
 	BuildingType type;
 	Color color;
 };
+
+CellType BuildToCellType(BuildingType);
+ostream& operator <<(ostream& os, const Coordinates&);
+ostream& operator <<(ostream& os, const BuildingType&);
+ostream& operator <<(ostream& os, const Resource&);
+ostream& operator <<(ostream& os, const Color&);
+ostream& operator <<(ostream& os, const CellType&);
 
 #endif

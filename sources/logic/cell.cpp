@@ -20,7 +20,6 @@ BlankCell::~BlankCell() {}
 Gexagon::Gexagon() 
 {
 	type_ = GEXAGON;
-	number = 0;
 	resource = NOTHING;
 }
 
