@@ -12,7 +12,7 @@
 #include <boost/signals2.hpp>
 #include <boost/asio.hpp>
 
-#include "TcpConnection.h"
+#include "TcpConnection.hpp"
 
 namespace Network {
 	using namespace boost::asio;

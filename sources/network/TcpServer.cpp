@@ -2,7 +2,7 @@
 // Created by ed on 29.11.16.
 //
 
-#include "TcpServer.h"
+#include "TcpServer.hpp"
 
 Network::TcpServer::TcpServer(unsigned short port) : port(port) {
 	if (port <= 0) {

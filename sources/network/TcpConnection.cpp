@@ -2,7 +2,7 @@
 // Created by ed on 30.11.16.
 //
 
-#include "TcpConnection.h"
+#include "TcpConnection.hpp"
 
 Network::TcpConnection::TcpConnection(Network::socket_ptr socket) : socket(socket) {
 	if (socket == nullptr) throw std::invalid_argument("Socket is nullptr.");
