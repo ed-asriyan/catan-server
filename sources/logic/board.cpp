@@ -7,11 +7,7 @@ Board::Board()
 
 Board::~Board()
 {
-	// for (int i = 0; i < FIELD_SIZE; ++i) {
-	// 	for (int j = 0; j < FIELD_SIZE; ++j) {
-	// 		delete playingFied_[i][j];
-	// 	}
-	// }
+
 }
 
 void Board::initialization()
@@ -28,26 +24,6 @@ void Board::initialization()
 	}
 
 	Coordinates coord = {0, 0};
-	
-	// for (unsigned int i = 0; i < gexagonCoordinates_.size(); ++i) {
-	// 	coord = gexagonCoordinates_[i];
-
-	// 	playingFied_[coord.x][coord.y].type = GEXAGON;
-
-	// 	playingFied_[coord.x + 2][coord.y].type = INTERSECTION;
-	// 	playingFied_[coord.x - 2][coord.y].type = INTERSECTION;
-	// 	playingFied_[coord.x][coord.y + 2].type = INTERSECTION;
-	// 	playingFied_[coord.x][coord.y - 2].type = INTERSECTION;
-	// 	playingFied_[coord.x + 2][coord.y - 2].type = INTERSECTION;
-	// 	playingFied_[coord.x - 2][coord.y + 2].type = INTERSECTION;
-
-	// 	playingFied_[coord.x - 1][coord.y - 1].type = EDGE;
-	// 	playingFied_[coord.x + 1][coord.y + 1].type = EDGE;
-	// 	playingFied_[coord.x + 1][coord.y - 2].type = EDGE;
-	// 	playingFied_[coord.x + 2][coord.y - 1].type = EDGE;
-	// 	playingFied_[coord.x - 1][coord.y + 2].type = EDGE;
-	// 	playingFied_[coord.x - 2][coord.y + 1].type = EDGE;
-	// }	
 
 	for (auto it = BoardGexIterator(*this); it(); ++it)
 	{
@@ -69,27 +45,10 @@ void Board::initialization()
 		playingFied_[coord.x - 1][coord.y + 2].type = EDGE;
 		playingFied_[coord.x - 2][coord.y + 1].type = EDGE;
 	}
-
-	// for (int i = 0; i < FIELD_SIZE; ++i) {
-	// 	for (int j = 0; j < FIELD_SIZE; ++j) {
-	// 		if (!playingFied_[i][j]) {
-	// 			playingFied_[i][j] = new BlankCell;
-	// 		}			
-	// 	}
-	// }
 }
 
 void Board::deployment(DeploymentType type)
 {
-	// map<Resource, vector<Coordinates>> resourcesPlacement = {
-	// 	{NOTHING, 	{ {10, 10} } },
-	// 	{WOOD, 		{ { 4, 10}, {16,  4}, {10, 16}, { 8, 14} } },
-	// 	{BRICKS, 	{ { 4, 16}, { 6, 12}, {12,  6} } }, 
-	// 	{FLEECE, 	{ { 2, 14}, {18,  6}, {16, 10}, {12, 12} } }, 
-	// 	{CORN, 		{ { 6, 18}, { 6,  6}, {10,  4}, {14, 14} } }, 
-	// 	{ORE, 		{ {14,  2}, { 8,  8}, {14,  8} } }
-	// };
-
 	for (auto it_map = Settings::resourcesPlacement.begin(); it_map != Settings::resourcesPlacement.end(); ++it_map) 
 	{
 		for (auto it_vect = it_map->second.begin(); it_vect != it_map->second.end(); ++it_vect) 
@@ -132,7 +91,6 @@ Resource Board::getGexResource(Coordinates coord)
 	}
 	else
 	{
-		// auto gex = dynamic_cast<Gexagon*>(cell);
 		return cell.resource;
 	}
 }
