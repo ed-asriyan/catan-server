@@ -9,7 +9,6 @@
 #include <ctime>
 #include <cstdlib>
 
-// #include "cell.hpp"
 #include "board.hpp"
 #include "player.hpp"
 
@@ -24,7 +23,6 @@ public:
 	void show();
 	void addPlayer(Color col = NO_COLOR);
 	void nextStep();
-
 	void build(BuildingType, Color, Coordinates);
 
 private:
@@ -33,21 +31,7 @@ private:
 
 	Board board;
 	vector<Color> not_using_colors_;
-
 	map<Color, Player> players_;
-
-	map<BuildingType, map<Resource, int>> costs_ = {
-		{ NO_BUILDING, {} }, 
-		{ SETTLEMENT, {
-			{ WOOD, 1 }, { BRICKS, 1 }, { FLEECE, 1 }, { CORN, 1 }
-		} },
-		{ CITY , {
-			{ CORN, 2 }, { ORE, 3 }
-		} },
-		{ ROAD, {
-			{ WOOD, 1 }, { BRICKS, 1 }
-		} }
-	};
 };
 
 #endif

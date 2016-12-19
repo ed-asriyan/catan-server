@@ -2,7 +2,6 @@
 
 Player::Player()
 {
-	// color_ = col;
 	totalResourcesAmount_ = 0;
 	resourcesAmount_ = { 
 		{WOOD, 		100},
@@ -21,6 +20,7 @@ Player::~Player()
 void Player::addResource(Resource res, int num)
 {
 	resourcesAmount_[res] += num;
+	totalResourcesAmount_ += num;
 }
 
 void Player::takeResource(Resource res, int num)
@@ -28,6 +28,7 @@ void Player::takeResource(Resource res, int num)
 	if (haveResourse(res, num))
 	{
 		resourcesAmount_[res] -= num;
+		totalResourcesAmount_ -= num;
 	}
 }
 

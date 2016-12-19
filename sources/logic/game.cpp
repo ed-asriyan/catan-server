@@ -93,7 +93,7 @@ void Game::nextStep()
 
 bool Game::buyBuilding(Color color, BuildingType type)
 {
-	for (auto cost : costs_[type])
+	for (auto cost : Settings::costs[type])
 	{
 		if (!players_[color].haveResourse(cost.first, cost.second))
 		{
@@ -101,7 +101,7 @@ bool Game::buyBuilding(Color color, BuildingType type)
 		}
 	}
 
-	for (auto cost : costs_[type])
+	for (auto cost : Settings::costs[type])
 	{
 		players_[color].takeResource(cost.first, cost.second);
 	}

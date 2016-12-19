@@ -27,15 +27,32 @@ void Board::initialization()
 		}
 	}
 
-	// int x_coord = 0;
-	// int y_coord = 0;
 	Coordinates coord = {0, 0};
-	for (unsigned int i = 0; i < gexagonCoordinates_.size(); ++i) {
-		// x_coord = gexagonCoordinates_[i].x;
-		// y_coord = gexagonCoordinates_[i].y;
-		coord = gexagonCoordinates_[i];
+	
+	// for (unsigned int i = 0; i < gexagonCoordinates_.size(); ++i) {
+	// 	coord = gexagonCoordinates_[i];
 
-		// playingFied_[x_coord][y_coord] = new Gexagon;
+	// 	playingFied_[coord.x][coord.y].type = GEXAGON;
+
+	// 	playingFied_[coord.x + 2][coord.y].type = INTERSECTION;
+	// 	playingFied_[coord.x - 2][coord.y].type = INTERSECTION;
+	// 	playingFied_[coord.x][coord.y + 2].type = INTERSECTION;
+	// 	playingFied_[coord.x][coord.y - 2].type = INTERSECTION;
+	// 	playingFied_[coord.x + 2][coord.y - 2].type = INTERSECTION;
+	// 	playingFied_[coord.x - 2][coord.y + 2].type = INTERSECTION;
+
+	// 	playingFied_[coord.x - 1][coord.y - 1].type = EDGE;
+	// 	playingFied_[coord.x + 1][coord.y + 1].type = EDGE;
+	// 	playingFied_[coord.x + 1][coord.y - 2].type = EDGE;
+	// 	playingFied_[coord.x + 2][coord.y - 1].type = EDGE;
+	// 	playingFied_[coord.x - 1][coord.y + 2].type = EDGE;
+	// 	playingFied_[coord.x - 2][coord.y + 1].type = EDGE;
+	// }	
+
+	for (auto it = BoardGexIterator(*this); it(); ++it)
+	{
+		coord = *it;
+
 		playingFied_[coord.x][coord.y].type = GEXAGON;
 
 		playingFied_[coord.x + 2][coord.y].type = INTERSECTION;
@@ -64,23 +81,20 @@ void Board::initialization()
 
 void Board::deployment(DeploymentType type)
 {
-	map<Resource, vector<int>> resourcesPlacement = {
-		{NOTHING, {18}},
-		{WOOD, {3, 7, 11, 12}},
-		{BRICKS, {1, 13, 15}}, 
-		{FLEECE, {2, 8, 9, 17}}, 
-		{CORN, {0, 4, 5, 10}}, 
-		{ORE, {6, 14, 16}}
-	};
+	// map<Resource, vector<Coordinates>> resourcesPlacement = {
+	// 	{NOTHING, 	{ {10, 10} } },
+	// 	{WOOD, 		{ { 4, 10}, {16,  4}, {10, 16}, { 8, 14} } },
+	// 	{BRICKS, 	{ { 4, 16}, { 6, 12}, {12,  6} } }, 
+	// 	{FLEECE, 	{ { 2, 14}, {18,  6}, {16, 10}, {12, 12} } }, 
+	// 	{CORN, 		{ { 6, 18}, { 6,  6}, {10,  4}, {14, 14} } }, 
+	// 	{ORE, 		{ {14,  2}, { 8,  8}, {14,  8} } }
+	// };
 
-	for (auto it_map = resourcesPlacement.begin(); it_map != resourcesPlacement.end(); ++it_map) {
-		for (auto it_vect = it_map->second.begin(); it_vect != it_map->second.end(); ++it_vect) {
-			Coordinates coord = gexagonCoordinates_[*it_vect];
-
-			// Кинуть exception, если тип ячейки не тот
-			
-			(*this)[coord].resource = it_map->first;
-			// gex->resource = it_map->first;
+	for (auto it_map = Settings::resourcesPlacement.begin(); it_map != Settings::resourcesPlacement.end(); ++it_map) 
+	{
+		for (auto it_vect = it_map->second.begin(); it_vect != it_map->second.end(); ++it_vect) 
+		{
+			(*this)[*it_vect].resource = it_map->first;
 		}
 	}
 }
@@ -91,8 +105,8 @@ CellType Board::getCellType(Coordinates coord)
 }
 
 void Board::playerInitDeployment(const Color col)
-{
-	auto vect = init_pos[col];
+{	
+	auto vect = Settings::init_pos[col];
 	for (auto it_vect : vect)
 	{
 		Coordinates crd = it_vect;
@@ -123,9 +137,9 @@ Resource Board::getGexResource(Coordinates coord)
 	}
 }
 
-vector<Coordinates> Board::getGexesByNumber(int num)
+vector<Coordinates> Board::getGexesByNumber(const int num)
 {
-	return gex_numbers_[num];
+	return Settings::gex_numbers[num];
 }
 
 vector<Coordinates> Board::getEdgesByEdge(Coordinates coord)
