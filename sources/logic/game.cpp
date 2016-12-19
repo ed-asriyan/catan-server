@@ -61,14 +61,16 @@ void Game::nextStep()
 
 	if (dice != 7)
 	{
-		vector<Coordinates> gexes = board.getGexesByNumber(dice);
-		for (auto gex : gexes)
+		// vector<Coordinates> gexes = board.getGexesByNumber(dice);
+		auto gex = GexesByNumberIterator(board, dice);
+		for ( ; gex(); ++gex)
 		{
-			Resource resource = board.getGexResource(gex);
-			vector<Coordinates> intersections = board.getIntersectionsByGex(gex);
-			for (auto isect : intersections)
+			Resource resource = board.getGexResource(*gex);
+			// vector<Coordinates> intersections = board.getIntersectionsByGex(*gex);
+			auto isect = IntersectionsByGexIterator(board, *gex);
+			for ( ; isect(); ++isect)
 			{
-				Cell cell = board[isect];
+				Cell cell = board[*isect];
 				if (cell.building.type != NO_BUILDING)
 				{
 					Color color = cell.building.color;

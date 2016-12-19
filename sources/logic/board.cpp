@@ -95,147 +95,6 @@ Resource Board::getGexResource(Coordinates coord)
 	}
 }
 
-vector<Coordinates> Board::getGexesByNumber(const int num)
-{
-	return Settings::gex_numbers[num];
-}
-
-vector<Coordinates> Board::getEdgesByEdge(Coordinates coord)
-{
-	vector<Coordinates> answer;
-
-	for (int i = -2; i < 3; ++i)
-	{
-		for (int j = -2; j < 3; ++j)
-		{
-			int x = coord.x + i;
-			int y = coord.y + j;
-			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
-			{
-				Cell cell = playingFied_[x][y];
-				if (cell.type == EDGE)
-				{
-					answer.push_back({x, y});
-				}
-			}
-		}
-	}
-
-	return answer;
-}
-
-vector<Coordinates> Board::getIntersectionsByIntersection(Coordinates coord)
-{
-	vector<Coordinates> answer;
-
-	for (int i = -2; i < 3; ++i)
-	{
-		for (int j = -2; j < 3; ++j)
-		{
-			int x = coord.x + i;
-			int y = coord.y + j;
-			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
-			{
-				Cell cell = playingFied_[x][y];
-				Cell cell_between = playingFied_[(x + coord.x) / 2][(y + coord.y) / 2];
-				if (cell.type == INTERSECTION && cell_between.type == EDGE)
-				{
-					answer.push_back({x, y});
-				}
-			}
-		}
-	}
-
-	return answer;
-}	
-
-vector<Coordinates> Board::getIntersectionsByGex(Coordinates coord)
-{
-	vector<Coordinates> answer;
-
-	for (int i = -2; i < 3; ++i)
-	{
-		for (int j = -2; j < 3; ++j)
-		{
-			int x = coord.x + i;
-			int y = coord.y + j;
-			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
-			{
-				Cell cell = playingFied_[x][y];
-				if (cell.type == INTERSECTION)
-				{
-					answer.push_back({x, y});
-				}
-			}
-		}
-	}
-
-	return answer;
-}
-
-vector<Coordinates> Board::getEdgesByGex(Coordinates)
-{
-
-}
-
-vector<Coordinates> Board::getGexesByIntersection(Coordinates)
-{
-
-}
-
-vector<Coordinates> Board::getEdgesByIntersection(Coordinates coord)
-{
-	vector<Coordinates> answer;
-
-	for (int i = -1; i < 2; ++i)
-	{
-		for (int j = -1; j < 2; ++j)
-		{
-			int x = coord.x + i;
-			int y = coord.y + j;
-			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
-			{
-				Cell cell = playingFied_[x][y];
-				if (cell.type == EDGE)
-				{
-					answer.push_back({x, y});
-				}
-			}
-		}
-	}
-
-	return answer;
-}
-
-vector<Coordinates> Board::getIntersectionsByEdge(Coordinates coord)
-{
-	vector<Coordinates> answer;
-
-	for (int i = -1; i < 2; ++i)
-	{
-		for (int j = -1; j < 2; ++j)
-		{
-			int x = coord.x + i;
-			int y = coord.y + j;
-			if (x > 0 && x < FIELD_SIZE && y > 0 && y < FIELD_SIZE)
-			{
-				Cell cell = playingFied_[x][y];
-				if (cell.type == INTERSECTION)
-				{
-					answer.push_back({x, y});
-				}
-			}
-		}
-	}
-
-	return answer;
-}
-
-vector<Coordinates> Board::getGexesByEdge(Coordinates)
-{
-
-}
-
 bool Board::canBuildRoad(Color color, Coordinates coord)
 {
 	if ((*this)[coord].building.type != NO_BUILDING)
@@ -245,11 +104,12 @@ bool Board::canBuildRoad(Color color, Coordinates coord)
 		return false;
 	}
 
-	vector<Coordinates> nearby_edges = getEdgesByEdge(coord);
+	// vector<Coordinates> nearby_edges = getEdgesByEdge(coord);
+	auto edge = EdgesByEdgeIterator(*this, coord);
 
-	for (auto edge : nearby_edges)
+	for (; edge(); ++edge)
 	{
-		if ((*this)[edge].building.color == color)
+		if ((*this)[*edge].building.color == color)
 		{
 			// cout << "Can build road in " << coord << endl;
 			return true;
@@ -270,23 +130,25 @@ bool Board::canBuildSettlement(Color color, Coordinates coord)
 		return false;
 	}
 
-	vector<Coordinates> nearby_intersections = getIntersectionsByIntersection(coord);
+	// vector<Coordinates> nearby_intersections = getIntersectionsByIntersection(coord);
+	auto isect = IntersectionsByIntersectionIterator(*this, coord);
 
-	for (auto isect : nearby_intersections)
+	for ( ; isect(); ++isect)
 	{
-		if ((*this)[isect].building.type != NO_BUILDING)
+		if ((*this)[*isect].building.type != NO_BUILDING)
 		{
 			cout << "Can not build settlement in " << coord << endl;
-			cout << (*this)[isect].building.type << " in " << isect << endl;
+			cout << (*this)[*isect].building.type << " in " << *isect << endl;
 			return false;
 		}
 	}
 
-	vector<Coordinates> nearby_edges = getEdgesByIntersection(coord);
+	// vector<Coordinates> nearby_edges = getEdgesByIntersection(coord);
+	auto edge = EdgesByIntersectionIterator(*this, coord);
 
-	for (auto edge : nearby_edges)
+	for ( ; edge(); ++edge)
 	{
-		if ((*this)[edge].building.color == color)
+		if ((*this)[*edge].building.color == color)
 		{
 			// cout << "Can build settlement in " << coord << endl;
 			return true;

@@ -47,19 +47,6 @@ public:
 	void playerInitDeployment(Color);
 	Resource getGexResource(Coordinates);
 
-	vector<Coordinates> getGexesByNumber(int);
-	vector<Coordinates> getIntersectionsByNumber(int);
-
-	vector<Coordinates> getEdgesByEdge(Coordinates);
-	vector<Coordinates> getIntersectionsByIntersection(Coordinates);	
-
-	vector<Coordinates> getIntersectionsByGex(Coordinates);
-	vector<Coordinates> getEdgesByGex(Coordinates);
-	vector<Coordinates> getGexesByIntersection(Coordinates);
-	vector<Coordinates> getEdgesByIntersection(Coordinates);
-	vector<Coordinates> getIntersectionsByEdge(Coordinates);
-	vector<Coordinates> getGexesByEdge(Coordinates);
-
 	bool canBuildRoad(Color, Coordinates);
 	bool canBuildSettlement(Color, Coordinates);
 	bool canBuildCity(Color, Coordinates);
