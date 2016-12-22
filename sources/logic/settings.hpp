@@ -16,4 +16,8 @@ namespace Settings
 	extern std::map<Color, std::vector<Coordinates>> init_pos;
 	
 	extern std::map<BuildingType, std::map<Resource, int>> costs;
+
+	extern std::map<Resource, int> init_resources;
+
+	extern int win_score;
 }

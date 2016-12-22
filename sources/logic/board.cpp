@@ -255,6 +255,9 @@ void Board::show()
 						case RED:
 							text_color = C_Red;
 							break;
+						case NO_COLOR:
+						default:
+							break;
 					}
 				}
 
@@ -280,6 +283,9 @@ void Board::show()
 							break;
 						case ORE:
 							gex = 'O';
+							break;
+						case NOTHING:
+						default:
 							break;
 					}
 				}

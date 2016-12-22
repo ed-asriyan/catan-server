@@ -1,5 +1,7 @@
 #include "settings.hpp"
 
+int Settings::win_score = 10;
+
 std::vector<Coordinates> Settings::gexCoordinates = {
 	{ 6, 18}, { 4, 16}, { 2, 14}, 
 	{ 4, 10}, { 6,  6}, {10,  4}, 
@@ -60,3 +62,12 @@ std::map<BuildingType, std::map<Resource, int>> Settings::costs = {
 		{ WOOD, 1 }, { BRICKS, 1 }
 	} }
 };
+
+std::map <Resource, int> Settings::init_resources = { 
+	{WOOD, 		100},
+	{BRICKS, 	100},
+	{FLEECE, 	100}, 
+	{CORN, 		100}, 
+	{ORE, 		100}
+};
+

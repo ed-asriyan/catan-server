@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "sources.hpp"
+#include "settings.hpp"
 
 using namespace std;
 
@@ -12,7 +13,6 @@ class Player
 {
 public:
 	Player();
-	// Player(Color col = NO_COLOR);
 	~Player();
 
 	int resourceAmount(Resource);
@@ -20,15 +20,15 @@ public:
 	void addResource(Resource, int);
 	void takeResource(Resource, int);
 	bool haveResourse(Resource, int);
-	// Color getColor();
+	void addScore(int);
+	int getScore();
 
 	void show();
 
 protected:
 	map <Resource, int> resourcesAmount_;
 	int totalResourcesAmount_;
-	// Color color_;
-
+	int score_;
 };
 
 #endif

@@ -11,6 +11,7 @@
 
 #include "board.hpp"
 #include "player.hpp"
+#include "settings.hpp"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 	void addPlayer(Color col = NO_COLOR);
 	void nextStep();
 	void build(BuildingType, Color, Coordinates);
+	vector<Color> checkWinners();
 
 private:
 	int throwDice();

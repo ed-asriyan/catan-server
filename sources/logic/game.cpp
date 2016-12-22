@@ -127,3 +127,31 @@ void Game::build(BuildingType type, Color color, Coordinates coord)
 		}
 	}
 }
+
+vector<Color> Game::checkWinners()
+{
+	vector<Color> winners;
+	int max_score = 0;
+	int score = 0;
+	for (auto player : players_)
+	{
+		score = player.second.getScore();
+		if (score > max_score)
+		{
+			winners.clear();
+			winners.push_back(player.first);
+			max_score = score;
+		}
+		else if (score == max_score)
+		{
+			winners.push_back(player.first);
+		}
+	}
+
+	if (players_[winners[0]].getScore() < 10)
+	{
+		winners.clear();
+	}
+
+	return winners;
+}

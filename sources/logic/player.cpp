@@ -3,13 +3,7 @@
 Player::Player()
 {
 	totalResourcesAmount_ = 0;
-	resourcesAmount_ = { 
-		{WOOD, 		100},
-		{BRICKS, 	100},
-		{FLEECE, 	100}, 
-		{CORN, 		100}, 
-		{ORE, 		100}
-	};
+	resourcesAmount_ = Settings::init_resources;
 }
 
 Player::~Player()
@@ -51,4 +45,14 @@ void Player::show()
 	cout << "FLEECE: " << resourcesAmount_[FLEECE] 	<< endl;
 	cout << "CORN:   " << resourcesAmount_[CORN] 	<< endl;
 	cout << "ORE:    " << resourcesAmount_[ORE] 	<< endl;
+}
+
+void Player::addScore(int amount)
+{
+	score_ += amount;
+}
+
+int Player::getScore()
+{
+	return score_;
 }
