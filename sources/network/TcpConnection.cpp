@@ -18,7 +18,9 @@ std::string Network::TcpConnection::receive() {
 	streambuf buffer;
 	boost::asio::read_until(*socket, buffer, '\0');
 
-	return std::string(std::istreambuf_iterator<char>(&buffer), std::istreambuf_iterator<char>());
+	auto response = std::string(std::istreambuf_iterator<char>(&buffer), std::istreambuf_iterator<char>());
+	response.pop_back();
+	return response;
 }
 
 std::string Network::TcpConnection::get_remote_ip() const {
