@@ -4,21 +4,29 @@
 
 #include "CatanProtoServer.hpp"
 
-Network::CatanProtoServer::CatanProtoServer(unsigned short port) : TcpServer(port) {
+Network::CatanProtoServer::CatanProtoServer(unsigned short port) throw(std::invalid_argument) : TcpServer(port) {}
 
-}
-
-void Network::CatanProtoServer::onConnect(Network::connection_ptr connection) {
+void Network::CatanProtoServer::onConnect(Network::connection_ptr connection) throw(Exceptions::NetworkException) {
 	// todo: authorization block
 
-	std::istringstream is(connection->receive());
-	ptree pt;
-	read_json(is, pt);
-
-	// todo: exceptions catcher-handler
 	ptree result;
-	auto response = onRequest(CatanRequest::parse(pt));
-	result.put_child("response", response);
+
+	try {
+		std::istringstream is(connection->receive());
+		ptree pt;
+		try {
+			read_json(is, pt);
+		} catch (...) {
+			throw Exceptions::InvalidJsonException();
+		}
+
+		auto response = onRequest(CatanRequest::parse(pt));
+		result.put_child("response", response);
+	} catch (const Exceptions::BaseCatanException& e) {
+		result.put_child("error", e.to_ptree());
+	} catch (...) {
+		result.put_child("error", Exceptions::UnknownCatanException().to_ptree());
+	}
 
 	std::ostringstream os;
 	write_json(os, result, false);

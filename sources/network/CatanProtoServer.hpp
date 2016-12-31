@@ -13,6 +13,11 @@
 #include "TcpServer.hpp"
 #include "CatanRequest.hpp"
 
+#include "exceptions/NetworkException.hpp"
+#include "exceptions/BaseCatanException.hpp"
+#include "exceptions/InvalidJsonException.hpp"
+#include "exceptions/UnknownCatanException.hpp"
+
 namespace Network {
 	using namespace boost::property_tree;
 
@@ -25,13 +30,13 @@ namespace Network {
 			 * @brief CatanProtoServer constructor.
 			 * @param port Port for listening.
 			 */
-			CatanProtoServer(unsigned short port);
+			CatanProtoServer(unsigned short port) throw(std::invalid_argument);
 
 		protected:
-			virtual ptree onRequest(const CatanRequest& request) = 0;
+			virtual ptree onRequest(const CatanRequest& request) throw(Exceptions::BaseCatanException) = 0;
 
 		private:
-			virtual void onConnect(connection_ptr connection) final;
+			virtual void onConnect(connection_ptr connection) throw(Exceptions::NetworkException) final;
 	};
 }
 

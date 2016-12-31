@@ -9,6 +9,8 @@
 #include <boost/asio.hpp>
 #include <boost/asio/read_until.hpp>
 
+#include "exceptions/NetworkException.hpp"
+
 namespace Network {
 	using namespace boost::asio;
 
@@ -32,31 +34,31 @@ namespace Network {
 			 * @brief Constructor.
 			 * @param socket Socket connected to the client.
 			 */
-			TcpConnection(socket_ptr socket);
+			TcpConnection(socket_ptr socket) throw(std::invalid_argument);
 
 			/**
 			 * @brief Synchronously send string to the client.
 			 * @param string String to send.
 			 */
-			void send(const std::string& string);
+			void send(const std::string& string) throw(Exceptions::NetworkException);
 
 			/**
 			 * @brief Synchronously receives string from the connected client.
 			 * @return Received string.
 			 */
-			std::string receive();
+			std::string receive() throw(Exceptions::NetworkException);
 
 			/**
 			 * @brief Returns remote ip address.
 			 * @return Remote ip address.
 			 */
-			std::string get_remote_ip() const;
+			std::string get_remote_ip() const noexcept;
 
 			/**
 			 * @brief Returns local ip address.
 			 * @returns Local ip address.
 			 */
-			std::string get_local_ip() const;
+			std::string get_local_ip() const noexcept;
 	};
 }
 

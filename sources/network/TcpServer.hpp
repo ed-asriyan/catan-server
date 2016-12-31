@@ -14,6 +14,8 @@
 
 #include "TcpConnection.hpp"
 
+#include "exceptions/NetworkException.hpp"
+
 namespace Network {
 	using namespace boost::asio;
 
@@ -34,40 +36,40 @@ namespace Network {
 			 * @brief TcpServer constructor.
 			 * @param port Port for listening.
 			 */
-			TcpServer(unsigned short port);
+			TcpServer(unsigned short port) noexcept;
 
 			/**
 			 * @brief Starts the server.
 			 */
-			void start();
+			void start() throw(Exceptions::NetworkException);
 
 			/**
 			 * @brief Stops the server.
 			 */
-			void stop();
+			void stop() noexcept;
 
 			/**
 			 * @brief Run synchronous listening in current thread.
 			 */
-			void listen();
+			void listen() throw(Exceptions::NetworkException);
 
 			/**
 			 * @brief Returns listening port.
 			 * @return Listening port.
 			 */
-			unsigned short get_port() const;
+			unsigned short get_port() const noexcept;
 
 			/**
 			 * @brief Returns true if server is running.
 			 * @return True if server is running.
 			 */
-			bool is_running() const;
+			bool is_running() const noexcept;
 
 		private:
-			void handleConnection(socket_ptr socket);
+			void handleConnection(socket_ptr socket) noexcept;
 
 		protected:
-			virtual void onConnect(connection_ptr connection) = 0;
+			virtual void onConnect(connection_ptr connection) throw(Exceptions::NetworkException) = 0;
 
 	};
 }
